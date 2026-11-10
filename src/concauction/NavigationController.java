@@ -30,6 +30,8 @@ public class NavigationController
         ConsoleView consoleView,
         ActionController actionController)
     {
+        boolean updateView = false;
+        
         if (biddingManager != null)
         {
             this.biddingManager = biddingManager;
@@ -39,22 +41,27 @@ public class NavigationController
             this.biddingManager = new BiddingManager();
         }
 
-        if (actionController != null)
-        {
-            this.actionController = actionController;
-        }
-        else
-        {
-            actionController = new ActionController(biddingManager, null);
-        }
-
         if (consoleView != null)
         {
             view = consoleView;
         }
         else
         {
-            view = new ConsoleView(actionController, this);
+            updateView = true
+            view = new ConsoleView(null, this);
+        }
+        
+        if (actionController != null)
+        {  
+            this.actionController = actionController;
+        }
+        else
+        {
+            actionController = new ActionController(biddingManager, view);
+        }
+        
+        if (updateView) {
+            view.setActionController(actionController);
         }
     }
 

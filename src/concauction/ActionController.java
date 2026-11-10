@@ -45,13 +45,14 @@ public class ActionController
         }
         else
         {
-            view = new ConsoleView(
-                this,
-                new NavigationController(biddingManager, null, this));
+            NavigationController navigationController =
+                NavigationController(biddingManager, view, this);
+            view = new ConsoleView(navigationController, this);
         }
     }
 
     // ~Public Methods ........................................................
+
 
     // ----------------------------------------------------------
     /**
@@ -80,6 +81,11 @@ public class ActionController
                 {
                     errorAndAuctionMenu();
                 }
+                if (bidInt < biddingManager.getHighestBid()) // Under money check
+                {
+                    errorAndAuctionMenu();
+                }
+                
                 biddingManager.addBid(bid, currentBidder);
                 view.auctionMenu();
             }
@@ -89,17 +95,21 @@ public class ActionController
             errorAndAuctionMenu();
         }
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * Set current bidder
+     * 
      * @param newBidder
      */
-    public void setCurrentBidder(User newBidder) {
+    public void setCurrentBidder(User newBidder)
+    {
         currentBidder = newBidder;
     }
 
     // ~Private Methods ........................................................
+
 
     // ----------------------------------------------------------
     private void errorAndAuctionMenu()
