@@ -17,11 +17,11 @@ WIP
 
 ### Running Tests in Eclipse
 To run our JUnit tests, run any test classes as "JUnit Test." Test classes can be identified by the suffix Test in their file name (____Test.java). In this prohect, the following files should be ran for testing:
-  - '''ActionControllerTest'''
-  - '''ItemTest'''
-  - '''NavigationControllerTest'''
-  - '''QueueTest'''
-  - '''UserTest'''
+  - `ActionControllerTest`
+  - `ItemTest`
+  - `NavigationControllerTest`
+  - `QueueTest`
+  - `UserTest`
 
 ### Important note about JUnit testing
 JUnit testing is done using the 'CS2-Support' package as provided by the CS 2114 class this project was built for. The project assumes that CS2-Support is both downloaded and within the project's build path. Anyone not in our university will not have access to said package. Therefore, unfortunately, our JUnit testing is not accessible to external viewers.
