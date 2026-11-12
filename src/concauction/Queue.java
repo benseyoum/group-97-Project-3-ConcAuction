@@ -1,28 +1,27 @@
 package concauction;
+
 // -------------------------------------------------------------------------
 /**
- *  Generic queue that stores elements in FIFO using a circular array
+ * Generic queue that stores elements in FIFO using a circular array
  * 
- *  @author krish
- *  @version Nov 11, 2026
+ * @author krish
+ * @version Nov 11, 2026
+ * @param <E>
  */
 public class Queue<E>
 {
-    //~ Fields ................................................................
+    // ~ Fields ................................................................
     private E[] queueArray;
     private int front;
     private int back;
     private int size;
     private int capacity;
-   
-    
-    
-    
-    
+
     // ----------------------------------------------------------
     /**
      * Create a new Queue object.
      */
+    @SuppressWarnings("unchecked")
     public Queue()
     {
         capacity = 10;
@@ -31,16 +30,13 @@ public class Queue<E>
         back = 0;
         size = 0;
     }
-    
-    
-    
-    
-    
-   
+
+
     // ----------------------------------------------------------
     /**
      * Doubles capacity queue. Keeps it in FIFO.
      */
+    @SuppressWarnings("unchecked")
     public void doubleSize()
     {
         int newCapacity = capacity * 2;
@@ -56,10 +52,8 @@ public class Queue<E>
         front = 0;
         back = size;
     }
-    
-    
-    
-    
+
+
     /**
      * Checks whether the queue is empty
      *
@@ -69,13 +63,12 @@ public class Queue<E>
     {
         return size == 0;
     }
-    
-    
-    
-    
+
+
     // ----------------------------------------------------------
     /**
      * Removes and returns the first element
+     * 
      * @return the removed element or null
      */
     public E dequeue()
@@ -92,11 +85,12 @@ public class Queue<E>
 
         return element;
     }
-    
-    
+
+
     // ----------------------------------------------------------
     /**
      * Returns the first element without removing
+     * 
      * @return the first element
      */
     public E peek()
@@ -108,12 +102,13 @@ public class Queue<E>
 
         return queueArray[front];
     }
-    
+
+
     /**
      * Adds an element to the back of the queue
      *
-     * @param element the element to add
-     *            
+     * @param element
+     *            the element to add
      */
     public void enqueue(E element)
     {

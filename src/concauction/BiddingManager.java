@@ -1,25 +1,28 @@
 package concauction;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 // -------------------------------------------------------------------------
 /**
- *  Manages auctions, users and bids.
+ * Manages auctions, users and bids.
  * 
- *  @author krish
- *  @version Nov 11, 2026
+ * @author krish
+ * @version Nov 11, 2026
  */
 public class BiddingManager
 {
-    //~ Fields ................................................................
+    // ~ Fields ................................................................
     private Queue<Item> auctionQueue;
     private Queue<User> userQueue;
     private User[] users;
     private int highestBid;
     private ArrayList<Observer> observerList;
-    //~ Constructors ..........................................................
+
+    // ~ Constructors ..........................................................
     /**
-     * Creates a BiddingManager with auction items
-     * and empty user and observer lists
+     * Creates a BiddingManager with auction items and empty user and observer
+     * lists
      */
     public BiddingManager()
     {
@@ -27,14 +30,22 @@ public class BiddingManager
         userQueue = new Queue<User>();
         users = new User[4];
         observerList = new ArrayList<Observer>();
-        
         highestBid = auctionQueue.peek().getStartingBid();
-        
+
+        Random rand = new Random();
+        for (int i = 0; i < rand.nextInt(3, 6); i++)
+        {
+            Item newItem = new Item(
+                "Item " + (i + 1),
+                rand.nextInt(100, 300),
+                rand.nextInt(0, 200));
+            auctionQueue.enqueue(newItem);
+        }
+
     }
-    //~Public  Methods ........................................................
-    
-    
-    
+    // ~Public Methods ........................................................
+
+
     /**
      * Adds a new user to the auction
      */
@@ -45,18 +56,18 @@ public class BiddingManager
             if (users[i] == null)
             {
                 users[i] = new User();
+                notifyObservers();
                 return;
             }
         }
     }
-    
-    
-    
+
+
     /**
      * Finds a user with the given ID
      *
-     * @param id the ID to search for
-     *            
+     * @param id
+     *            the ID to search for
      * @return the matching user or null if not found
      */
     public User findUser(int id)
@@ -71,8 +82,8 @@ public class BiddingManager
 
         return null;
     }
-    
-    
+
+
     /**
      * Returns the auction queue
      *
@@ -82,8 +93,8 @@ public class BiddingManager
     {
         return auctionQueue;
     }
-    
-    
+
+
     /**
      * Returns the current highest bid
      *
@@ -93,41 +104,44 @@ public class BiddingManager
     {
         return highestBid;
     }
-    
-    
-    
+
+
     // ----------------------------------------------------------
     /**
      * adds a bid and keeps track of the highest bid
-     * @param bid the amount being bid
-     * @param origin the user placing the bid
+     * 
+     * @param bid
+     *            the amount being bid
+     * @param origin
+     *            the user placing the bid
      */
     public void addBid(int bid, User origin)
     {
-        
+
         if (origin == null || auctionQueue.isEmpty())
         {
             throw new IllegalArgumentException();
         }
 
-        if (bid <= 0 || bid < highestBid
-            || bid > origin.getMoney())
+        if (bid <= 0 || bid < highestBid || bid > origin.getMoney())
         {
             throw new IllegalArgumentException();
         }
 
-        if (bid > highestBid)
+        if (bid >= highestBid)
         {
             highestBid = bid;
-            userQueue = new Queue<User>();
+            if (bid == highestBid)
+            {
+                userQueue = new Queue<User>();
+            }
         }
 
         userQueue.enqueue(origin);
         notifyObservers();
     }
-    
-    
-    
+
+
     /**
      * Adds an observer to the observer list
      *
@@ -141,8 +155,8 @@ public class BiddingManager
             observerList.add(o);
         }
     }
-    
-    
+
+
     /**
      * Notifies observers when auction information changes
      */
@@ -166,12 +180,11 @@ public class BiddingManager
             observer.update(highestBid, itemName, winningUser);
         }
     }
-    
-    
-    
+
+
     /**
-     * Finishes the auction and determines the winner
-     * Updates money and inventory if the item sells
+     * Finishes the auction and determines the winner Updates money and
+     * inventory if the item sells
      */
     public void finishAuction()
     {
@@ -182,19 +195,26 @@ public class BiddingManager
 
         Item item = auctionQueue.peek();
 
-        if (!userQueue.isEmpty()
-            && highestBid >= item.getBoughtInValue())
+        if (!userQueue.isEmpty() && highestBid >= item.getBoughtInValue())
         {
             User winner = userQueue.peek();
 
             winner.setMoney(winner.getMoney() - highestBid);
             winner.inventoryAdd(item);
         }
-        
-        auctionQueue.dequeue();
 
-      
+        notifyObservers();
     }
 
 
+    /**
+     * Resets variables used to finish auction
+     */
+    public void resetFinish()
+    {
+        userQueue = new Queue<User>();
+        auctionQueue.dequeue();
+        highestBid = auctionQueue.peek().getStartingBid();
+        notifyObservers();
+    }
 }

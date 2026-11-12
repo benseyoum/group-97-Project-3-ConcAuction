@@ -117,6 +117,8 @@ public class NavigationController
             else
             {
                 view.bidWinScreenMenu();
+                biddingManager.resetFinish();
+                view.auctionMenu();
             }
         }
         else

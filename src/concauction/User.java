@@ -17,6 +17,10 @@ public class User
     private int money;
     private ArrayList<Item> inventory;
     // ~ Constructors ..........................................................
+
+    /**
+     * Create a new User object.
+     */
     public User()
     {
         id = nextID;
@@ -27,8 +31,8 @@ public class User
     }
 
     // ~Public Methods ........................................................
-    
-    
+
+
     /**
      * returns the user's ID
      *
@@ -38,8 +42,8 @@ public class User
     {
         return id;
     }
-    
-    
+
+
     /**
      * returns the user's current money
      *
@@ -49,8 +53,8 @@ public class User
     {
         return money;
     }
-    
-    
+
+
     /**
      * returns the user's inventory
      *
@@ -60,8 +64,8 @@ public class User
     {
         return inventory;
     }
-    
-    
+
+
     /**
      * adds an item to the user's inventory
      *
@@ -72,15 +76,13 @@ public class User
     {
         inventory.add(newItem);
     }
-    
-    
-    
+
 
     /**
-     * sets the user's money
-     * negative values are changed to zero
+     * sets the user's money negative values are changed to zero
      *
-     * @param money the new money amount
+     * @param money
+     *            the new money amount
      */
     public void setMoney(int money)
     {

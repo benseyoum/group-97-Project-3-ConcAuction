@@ -68,7 +68,6 @@ public class ActionController
             if (currentBidder == null) // Null bidder check
             {
                 errorAndAuctionMenu();
-
             }
             else
             {
