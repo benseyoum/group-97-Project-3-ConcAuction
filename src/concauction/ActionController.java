@@ -80,11 +80,12 @@ public class ActionController
                 {
                     errorAndAuctionMenu();
                 }
-                if (bidInt < biddingManager.getHighestBid()) // Under money check
+                if (bidInt < biddingManager.getHighestBid()) // Under money
+                                                             // check
                 {
                     errorAndAuctionMenu();
                 }
-                
+
                 biddingManager.addBid(bid, currentBidder);
                 view.auctionMenu();
             }
@@ -94,7 +95,6 @@ public class ActionController
             errorAndAuctionMenu();
         }
     }
-
 
     // ----------------------------------------------------------
     /**
@@ -106,7 +106,8 @@ public class ActionController
     {
         return currentBidder;
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * Set current bidder

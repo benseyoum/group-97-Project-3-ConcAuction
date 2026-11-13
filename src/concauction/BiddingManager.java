@@ -30,7 +30,6 @@ public class BiddingManager
         userQueue = new Queue<User>();
         users = new User[4];
         observerList = new ArrayList<Observer>();
-        highestBid = auctionQueue.peek().getStartingBid();
 
         Random rand = new Random();
         for (int i = 0; i < rand.nextInt(4)+3; i++)
@@ -41,7 +40,8 @@ public class BiddingManager
                 rand.nextInt(201));
             auctionQueue.enqueue(newItem);
         }
-
+        
+        highestBid = auctionQueue.peek().getStartingBid();
     }
     // ~Public Methods ........................................................
 
@@ -128,13 +128,10 @@ public class BiddingManager
             throw new IllegalArgumentException();
         }
 
-        if (bid >= highestBid)
+        if (bid > highestBid)
         {
+            userQueue = new Queue<User>();
             highestBid = bid;
-            if (bid == highestBid)
-            {
-                userQueue = new Queue<User>();
-            }
         }
 
         userQueue.enqueue(origin);
@@ -198,7 +195,6 @@ public class BiddingManager
         if (!userQueue.isEmpty() && highestBid >= item.getBoughtInValue())
         {
             User winner = userQueue.peek();
-
             winner.setMoney(winner.getMoney() - highestBid);
             winner.inventoryAdd(item);
         }
@@ -214,7 +210,12 @@ public class BiddingManager
     {
         userQueue = new Queue<User>();
         auctionQueue.dequeue();
-        highestBid = auctionQueue.peek().getStartingBid();
+        if (auctionQueue.peek() != null) {
+            highestBid = auctionQueue.peek().getStartingBid();
+        }
+        else {
+            highestBid = 0;
+        }
         notifyObservers();
     }
 }

@@ -47,7 +47,7 @@ public class NavigationController
         }
         else
         {
-            updateView = true
+            updateView = true;
             view = new ConsoleView(null, this);
         }
         
@@ -70,7 +70,7 @@ public class NavigationController
 
     // ----------------------------------------------------------
     /**
-     * Checks if the user count is valid.
+     * Checks if the user count is valid and runs next steps.
      * 
      * @param userCount
      */
@@ -94,7 +94,7 @@ public class NavigationController
 
     // ----------------------------------------------------------
     /**
-     * Place a description of your method here.
+     * Checks if user's bid selection is valid and runs next steps.
      * 
      * @param userId
      */

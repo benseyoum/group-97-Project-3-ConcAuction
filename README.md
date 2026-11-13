@@ -95,7 +95,7 @@ Model truly does stand alone. The tests for all the model methods (`BiddingManag
 | ActionController | Alex | Wrote, revised, completed |
 | ActionControllerTest | Alex | Wrote, revised, completed |
 | BiddingManager | Krish & Alex | Wrote, revised, completed |
-| BiddingManagerTest | Krish | Wrote, revised, completed |
+| BiddingManagerTest | Krish & Alex | Wrote, revised, completed |
 | ConsoleView | Ben | --- |
 | ConsoleViewTest | Ben | --- |
 | Item | Krish | Wrote, revised, completed |
