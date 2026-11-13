@@ -71,21 +71,30 @@ public class NavigationController
     // ----------------------------------------------------------
     /**
      * Checks if the user count is valid and runs next steps.
-     * 
-     * @param userCount
+     * @param inputUserCount 
      */
-    public void checkUserSelect(int userCount)
+    public void checkUserSelect(String inputUserCount)
     {
-        if (2 <= userCount && userCount <= 4) // User range check
-        {
-            for (int i = 0; i < userCount; i++)
+        int userCount;
+        
+        if (checkIfInt(inputUserCount)) {
+            userCount = Integer.parseInt(inputUserCount);
+            
+            if (2 <= userCount && userCount <= 4) // User range check
             {
-                biddingManager.addUser();
+                for (int i = 0; i < userCount; i++)
+                {
+                    biddingManager.addUser();
+                }
+                view.auctionMenu();
+            }
+            else
+            {
+                view.errorMenu();
                 view.userSelectMenu();
             }
         }
-        else
-        {
+        else {
             view.errorMenu();
             view.userSelectMenu();
         }
@@ -94,37 +103,67 @@ public class NavigationController
 
     // ----------------------------------------------------------
     /**
-     * Checks if user's bid selection is valid and runs next steps.
-     * 
-     * @param userId
+     * Checks if the user id to bid selection is valid and runs next steps.
+     * @param inputUserId 
      */
-    public void checkUserBidSelect(int userId)
+    public void checkUserBidSelect(String inputUserId)
     {
-        User user = biddingManager.findUser(userId);
-        if (user != null) // Null user check
-        {
-            actionController.setCurrentBidder(user);
-            view.biddingMenu();
-        }
-        else if (userId == 0) // Finish check
-        {
-            biddingManager.finishAuction();
-            if (biddingManager.getAuctionQueue().isEmpty()) // No auction items
-                                                            // left check
+        int userId;
+       
+        if (checkIfInt(inputUserId)) {
+            userId = Integer.parseInt(inputUserId);
+            User user = biddingManager.findUser(userId);
+
+            if (user != null) // Null user check
             {
-                view.finalWinScreenMenu();
+                actionController.setCurrentBidder(user);
+                view.biddingMenu();
+            }
+            else if (userId == 0) // Finish check
+            {
+                biddingManager.finishAuction();
+                if (biddingManager.getAuctionQueue().isEmpty()) // No auction items
+                                                                // left check
+                {
+                    view.finalWinScreenMenu();
+                }
+                else
+                {
+                    view.bidWinScreenMenu();
+                    biddingManager.resetFinish();
+                    view.auctionMenu();
+                }
             }
             else
             {
-                view.bidWinScreenMenu();
-                biddingManager.resetFinish();
-                view.auctionMenu();
+                view.errorMenu();
+                view.userBidSelectMenu();
             }
         }
-        else
-        {
+        else {
             view.errorMenu();
             view.userBidSelectMenu();
+        }
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * Checks if the user's input can be parsed as a String
+     * 
+     * @param intInput
+     * @return true if is int
+     */
+    public boolean checkIfInt(String intInput)
+    {
+        try
+        {
+            Integer.parseInt(intInput);
+            return true;
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
         }
     }
 }

@@ -67,7 +67,7 @@ public class ConcAuctionMain
                 continue;
             }
 
-            navigation.checkUserSelect(numberOfPlayers);
+            navigation.checkUserSelect(response);
             view.setPlayerCount(numberOfPlayers);
 
             break;
@@ -107,17 +107,17 @@ public class ConcAuctionMain
 
                 if (playerId == 0)
                 {
-                    navigation.checkUserBidSelect(0);
+                    navigation.checkUserBidSelect(playerText);
                     break;
                 }
 
                 if (model.findUser(playerId) == null)
                 {
-                    navigation.checkUserBidSelect(playerId);
+                    navigation.checkUserBidSelect(playerText);
                     continue;
                 }
 
-                navigation.checkUserBidSelect(playerId);
+                navigation.checkUserBidSelect(playerText);
 
                 String bidText = view.readInput();
 

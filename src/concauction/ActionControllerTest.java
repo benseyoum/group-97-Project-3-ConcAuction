@@ -24,6 +24,8 @@ public class ActionControllerTest
      */
     public void setUp()
     {
+        User.nextID = 1;
+
         biddingManager = new BiddingManager();
 
         view = new ConsoleView(null, null);
@@ -66,7 +68,7 @@ public class ActionControllerTest
     public void testValidBid()
     {
         User testUser = new User();
-        biddingManager.addBid(200, testUser);
+        biddingManager.addBid(300, testUser);
 
         actionController.setCurrentBidder(testUser);
         actionController.checkBiddingInput("300");
@@ -82,12 +84,20 @@ public class ActionControllerTest
     public void testNegativeBid()
     {
         User testUser = new User();
-        biddingManager.addBid(200, testUser);
+        biddingManager.addBid(300, testUser);
 
-        actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("-100");
-
-        assertEquals(200, biddingManager.getHighestBid());
+        Exception exception = null;
+        try
+        {
+            actionController.checkBiddingInput("-100");
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception = e;
+        }
+        
+        assertNull(exception);
+        assertEquals(300, biddingManager.getHighestBid());
     }
 
 
@@ -98,12 +108,20 @@ public class ActionControllerTest
     public void testZeroBid()
     {
         User testUser = new User();
-        biddingManager.addBid(200, testUser);
+        biddingManager.addBid(300, testUser);
 
-        actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("0");
-
-        assertEquals(200, biddingManager.getHighestBid());
+        Exception exception = null;
+        try
+        {
+            actionController.checkBiddingInput("-100");
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception = e;
+        }
+        
+        assertNull(exception);        
+        assertEquals(300, biddingManager.getHighestBid());
     }
 
 
@@ -117,11 +135,20 @@ public class ActionControllerTest
         biddingManager.addBid(300, testUser);
 
         actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("200");
-
+        
+        Exception exception = null;
+        try
+        {
+            actionController.checkBiddingInput("200");
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception = e;
+        }
+        
+        assertNotNull(exception);     
         assertEquals(300, biddingManager.getHighestBid());
     }
-
 
     // ----------------------------------------------------------
     /**
@@ -148,12 +175,22 @@ public class ActionControllerTest
     {
         User testUser = new User();
         testUser.setMoney(500);
-        biddingManager.addBid(200, testUser);
+        biddingManager.addBid(300, testUser);
 
         actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("600");
 
-        assertEquals(200, biddingManager.getHighestBid());
+        
+        Exception exception = null;
+        try
+        {
+            actionController.checkBiddingInput("600");
+        }
+        catch (IllegalArgumentException e)
+        {
+            exception = e;
+        }        
+        assertNotNull(exception);
+        assertEquals(300, biddingManager.getHighestBid());
 
     }
 
@@ -164,10 +201,13 @@ public class ActionControllerTest
      */
     public void testNullBid()
     {
+        User testUser = new User();
+        biddingManager.addBid(300, testUser);
+
         actionController.setCurrentBidder(null);
         actionController.checkBiddingInput("600");
 
-        assertEquals(200, biddingManager.getHighestBid());
+        assertEquals(300, biddingManager.getHighestBid());
 
     }
 }

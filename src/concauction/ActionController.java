@@ -46,8 +46,8 @@ public class ActionController
         else
         {
             NavigationController navigationController =
-                NavigationController(biddingManager, view, this);
-            view = new ConsoleView(navigationController, this);
+                new NavigationController(biddingManager, view, this);
+            view = new ConsoleView(this, navigationController);
         }
     }
 
@@ -86,7 +86,7 @@ public class ActionController
                     errorAndAuctionMenu();
                 }
 
-                biddingManager.addBid(bid, currentBidder);
+                biddingManager.addBid(bidInt, currentBidder);
                 view.auctionMenu();
             }
         }

@@ -25,6 +25,7 @@ public class NavigationControllerTest
      */
     public void setUp()
     {
+        User.nextID = 1;
         biddingManager = new BiddingManager();
 
         view = new ConsoleView(null, null);
@@ -45,17 +46,17 @@ public class NavigationControllerTest
     public void testConstructor()
     {
         Item temp1 = biddingManager.getAuctionQueue().peek();
-        navigationController.checkUserSelect(3);
+        navigationController.checkUserSelect("3");
 
         emptyNavigationController =
             new NavigationController(biddingManager, view, actionController);
 
-        emptyNavigationController.checkUserBidSelect(0);
+        emptyNavigationController.checkUserBidSelect("0");
 
         Item temp2 = biddingManager.getAuctionQueue().peek();
 
         assertNull(actionController.getCurrentBidder());
-        assertFalse(!temp1.getItemName().equals(temp2.getItemName()));
+        assertFalse(temp1.getItemName().equals(temp2.getItemName()));
     }
 
 
@@ -65,7 +66,7 @@ public class NavigationControllerTest
      */
     public void testUserCount()
     {
-        navigationController.checkUserSelect(3);
+        navigationController.checkUserSelect("3");
         assertNotNull(biddingManager.findUser(3));
     }
 
@@ -76,7 +77,7 @@ public class NavigationControllerTest
      */
     public void testInvalidUserCount()
     {
-        navigationController.checkUserSelect(5);
+        navigationController.checkUserSelect("5");
         assertNull(biddingManager.findUser(1));
     }
 
@@ -87,7 +88,7 @@ public class NavigationControllerTest
      */
     public void testLowUserCount()
     {
-        navigationController.checkUserSelect(1);
+        navigationController.checkUserSelect("1");
         assertNull(biddingManager.findUser(1));
     }
 
@@ -98,8 +99,8 @@ public class NavigationControllerTest
      */
     public void testUserSelect()
     {
-        navigationController.checkUserSelect(3);
-        navigationController.checkUserBidSelect(1);
+        navigationController.checkUserSelect("3");
+        navigationController.checkUserBidSelect("1");
         assertNotNull(actionController.getCurrentBidder());
     }
 
@@ -110,8 +111,8 @@ public class NavigationControllerTest
      */
     public void testInvalidUserSelect()
     {
-        navigationController.checkUserSelect(3);
-        navigationController.checkUserBidSelect(4);
+        navigationController.checkUserSelect("3");
+        navigationController.checkUserBidSelect("4");
         assertNull(actionController.getCurrentBidder());
     }
 
@@ -124,13 +125,13 @@ public class NavigationControllerTest
     {
         Item temp1 = biddingManager.getAuctionQueue().peek();
 
-        navigationController.checkUserSelect(3);
-        navigationController.checkUserBidSelect(0);
+        navigationController.checkUserSelect("3");
+        navigationController.checkUserBidSelect("0");
 
         Item temp2 = biddingManager.getAuctionQueue().peek();
 
         assertNull(actionController.getCurrentBidder());
-        assertFalse(!temp1.getItemName().equals(temp2.getItemName()));
+        assertFalse(temp1.getItemName().equals(temp2.getItemName()));
     }
 
 }

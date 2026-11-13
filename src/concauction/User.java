@@ -12,7 +12,10 @@ import java.util.ArrayList;
 public class User
 {
     // ~ Fields ................................................................
-    private static int nextID = 1;
+    /**
+     * global next ID
+     */
+    public static int nextID = 1;
     private final int id;
     private int money;
     private ArrayList<Item> inventory;
