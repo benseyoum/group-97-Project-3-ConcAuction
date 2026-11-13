@@ -18,7 +18,7 @@ This should include the concauction package setup necessary to run.
 To compile and run the model in the Eclipse IDE, run `BiddingManagerTest` as JUnit Test. `BiddingManager` represents the ultimate aggregation of the other model classes (`Item`, `Queue`, and `User`) and is used to represent the model as a whole by the controller and view. The test classes `ItemTest`, `QueueTest`, and `UserTest` can also be ran as JUnit Test to view smaller parts of the model. 
 
 #### Running the View
-To compile and run the view in the Eclipse IDE, run `concAuctionMain` as a Java Application because it contains the main method necessary to initialize the program loop. Any other IDE should similarly run `concAuctionMain` to start the main method loop.
+To compile and run the view in the Eclipse IDE, run `ConcAuctionMain` as a Java Application because it contains the main method necessary to initialize the program loop. Any other IDE should similarly run `ConcAuctionMain` to start the main method loop.
 
 
 ### Running Tests in Eclipse
@@ -72,8 +72,6 @@ JUnit testing is done using the 'CS2-Support' package as provided by the CS 2114
   - Reasoning is that this supports `ActionControllerTest` and `NavigationController`
     - Change prompted by necessity to set the `currentBidder` in `NavigationController` 
 
-
-
 ### Model Independence
 Model truly does stand alone. The tests for all the model methods (`BiddingManagerTest`, `ItemTest`, `QueueTest`, `UserTest`) can run without the view or controller and none of the tests actively create a view or controller within them.
 
@@ -88,11 +86,11 @@ Model truly does stand alone. The tests for all the model methods (`BiddingManag
   - Specification revised scope from a game to a simulation. This unknown became resolved during that shift. Additionally, the simulation inititally generates 3-6 items, so the simulation will always end.
 
 ### What Doesn't Work Yet
-Everything described in the MVP specification works as intended. Mvoing forward, we will be working toward our stretch goals. 
+Most of our MVP works as described in the specification. There only remains minor issues like occasional double printing in the view. 
 
 ## Next Steps 
 ### What's Left to Finish
-There is nothing left to finish for the MVP as it is done. However, we have many strecth goals to focus on in the next delvierables. These are discussed in "Stretch Goal Status."
+There is not much to finish in the MVP. The only thing to finish is fixing the issue of the view occasionally printing a prompt twice. However, we have many stretch goals to focus on in the next delvierables. These are discussed in "Stretch Goal Status."
 
 ### Non-trivial feature
 An option before any player bids to postpone bidding on a selected item. This will dequeue the current item and enqueue it to the back. The item's starting price will decrease. Users will continue on normally after postponing a bid, simply seeing that item at the end. 
@@ -187,6 +185,7 @@ It would NOT touch `NavigationController`, `Item`, or `User`. Any methods not di
 | User | Krish | Wrote, revised, completed |
 | UserTest | Krish | Wrote, revised, completed |
 
-**GenAI Note**: Alex has not used any GenAI. 
+**GenAI Note**: 
+Alex: has not used any GenAI. 
 Krish: used AI for method scaffolding generation, making sure test classes have no unexecuted methods and making sure my work was correct.
 Ben: used AI for view and test scaffolding, and troubleshooting integration issues.
