@@ -189,3 +189,4 @@ It would NOT touch `NavigationController`, `Item`, or `User`. Any methods not di
 
 **GenAI Note**: Alex has not used any GenAI. 
 Krish: used AI for method scaffolding generation, making sure test classes have no unexecuted methods and making sure my work was correct.
+Ben: used AI for view and test scaffolding, and troubleshooting integration issues.
