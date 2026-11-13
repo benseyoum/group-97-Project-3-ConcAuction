@@ -1,5 +1,12 @@
 package concauction;
 import student.TestCase;
+
+// -------------------------------------------------------------------------
+/**
+ *  test the queue class
+ *  @author krish
+ *  @version Nov 11, 2026
+ */
 public class QueueTest extends TestCase
 {
     //~ Fields ................................................................

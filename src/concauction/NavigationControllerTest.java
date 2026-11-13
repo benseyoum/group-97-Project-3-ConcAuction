@@ -44,7 +44,7 @@ public class NavigationControllerTest
      */
     public void testConstructor()
     {
-        Item temp1 = biddingManager.getAuctionQueue()[0];
+        Item temp1 = biddingManager.getAuctionQueue().peek();
         navigationController.checkUserSelect(3);
 
         emptyNavigationController =
