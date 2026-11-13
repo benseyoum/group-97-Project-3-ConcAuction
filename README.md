@@ -140,13 +140,23 @@ It would NOT touch `NavigationController`, `Item`, or `User`. Any methods not di
     - Test pushing a null item 
     - If array-based, test pushing when underlying array is full
     - Test searching for an item that doesn't exists
-  - Requires a new `ConsoleView` method and `
+  - Likely will be implemented via `NavigationController`, a getter method in `BiddingManager`, and a new menu method(s) in `ConsoleView`
+    - Test if `NavigationController` can reach to print the auction history
+    - Test if `NavigationController` crashes when inputting invalid navigation to get to auction history
 - **Randomized Items and Values**
   - Create a large backend dataset and have `BiddingManager` randomly assign them to itself
   - In `BiddingManagerTest`, test if randomly generated items are present in the backend dataset.
 - **Bidding Time Limit**
+  - Admittedly the implementation of this stretch goal has not yet been figured out
+  - Likely will require a new class, something like `Timer`
+  - `Timer` will likely have to include methods like `tick()`, `timeOut()`, `resetTimer(int time)`, `getTime()` and fields like `time`. The following should be tested in a new test class `TimerTest`
+    - Test if `tick()` properly decrements `time` at the correct intervals
+    - Test if `tick()` calls `timeOut` when it hits zero, stopping the countdown
+    - Test how `resetTimer(int time)` will handle a negative or zero time integer input.
 - **Postpone Bids**
-
+  - In `BiddingManagerTest`, test if `postponeAuction()` edits the queue as expected
+  - In `NavigationControllerTest`, test the new branch in `checkUserBidSelect(int userID)` for leading to the correct menu
+  - In 'ConsoleView', test if `postponeMenu()` reports the necessary values.
 
 ### Ownership
 | Feature | Owner(s) | 
