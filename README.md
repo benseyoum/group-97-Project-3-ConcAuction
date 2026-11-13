@@ -13,13 +13,13 @@ git clone https://github.com/PIsForPotato/group-97-Project-3-ConcAuction
 This should include the concauction package setup necessary to run. 
 
 ### Compiling and Running in Eclipse
-WIP
 
 #### Running the Model
-To run the model, run `BiddingManagerTest` as JUnit Test. `BiddingManager` represents the ultimate aggregation of the other model classes (`Item`, `Queue`, and `User`) and is used to represent the model as a whole by the controller and view. The test classes `ItemTest`, `QueueTest`, and `UserTest` can also be ran as JUnit Test to view smaller parts of the model. 
+To compile and run the model in the Eclipse IDE, run `BiddingManagerTest` as JUnit Test. `BiddingManager` represents the ultimate aggregation of the other model classes (`Item`, `Queue`, and `User`) and is used to represent the model as a whole by the controller and view. The test classes `ItemTest`, `QueueTest`, and `UserTest` can also be ran as JUnit Test to view smaller parts of the model. 
 
-#### Running the Thin View
-WIP
+#### Running the View
+To compile and run the view in the Eclipse IDE, run `WIP` as a Java Application because it contains the main method necessary to initialize the program loop. Any other IDE should similarly run `WIP` to start the main method loop.
+
 
 ### Running Tests in Eclipse
 To run our JUnit tests, run any test classes as "JUnit Test." Test classes can be identified by the suffix Test in their file name (____Test.java). In this project, the following files should be ran for testing:
@@ -41,29 +41,37 @@ JUnit testing is done using the 'CS2-Support' package as provided by the CS 2114
 - Originally, method `finishAuction()` was responsible for inventory management and resetting values for the next auction.
   - Tasks were split into `finishAuction()` which managed inventory and `resetFinish()` which resets values.
   - Reasoning is so that the controller can generate the win screen with the correct un-reset values before generating a new auction screen with the reset values
+  - Change prompted by team discussion about how `biddingManager` would lose the winner's data on reset before trying to print thata data. 
 - Originally, field `auctionQueue` had no getter.
   - Added method `getAuctionQueue()`
   - Reasoning is that this supports `ActionControllerTest`, `NavigationController`, and `NavigationControllerTest`
+  - Change prompted by necessity to check if `auctionQueue` is empty when running `NavigationController`'s `checkUserBidSelect(int userId)`
 - Originally, field `highestBid` had no getter.
   - Added method `getHighestBid()`
   - Reasoning is that this supports `ActionControllerTest`
-
+   - Change prompted by challenge of writing test cases without the `getHighestBid` value. 
 
 **`ConsoleView` Changes**
 - Originally, fields `actionController` and `navigationController` could not change after construction
   - Both were changed to changeable via setters
   - Reasoning is to enable better initialization of `ConsoleView` by allowing placeholders null values to be edited into proper controller references.
+  - Change prompted by the difficulty of getting `ConsoleView`, `ActionController`, and `NavigationController` objects all initialized without having at least one value be null in any of the three's constructors. 
 - Originally did not include setters for fields `actionController` and `navigationController`
   - Added methods `setActionController(ActionController actionController)` and `setNavigationController(NavigationController navigationController)`
   - Reasoning is the same as the point above.
+  - Change promtped by the same point above.
 
 **`ActionController` Changes**
 - Originally field `currentBidder` had no getter
   - Added method `getCurrentBidder()`
   - Reasoning is to support `NavigationControllerTest`
+  - Change prompted by challenge of writing test cases without the `currentBidder` value. 
+
 - Originally `currentBidder` had no setter
   - Added method `setCurrentBidder(User newBidder)`
   - Reasoning is that this supports `ActionControllerTest` and `NavigationController`
+    - Change prompted by necessity to set the `currentBidder` in `NavigationController` 
+
 
 
 ### Model Independence
@@ -80,14 +88,50 @@ Model truly does stand alone. The tests for all the model methods (`BiddingManag
   - Specification revised scope from a game to a simulation. This unknown became resolved during that shift. Additionally, the simulation inititally generates 3-6 items, so the simulation will always end.
 
 ### What Doesn't Work Yet
+Everything described in the MVP specification works as intended. Mvoing forward, we will be working toward our stretch goals. 
 
 ## Next Steps 
 ### What's Left to Finish
+There is nothing left to finish for the MVP as it is done. However, we have many strecth goals to focus on in the next delvierables. These are discussed in "Stretch Goal Status."
+
 ### Non-trivial feature
+An option before any player bids to postpone bidding on a selected item. This will dequeue the current item and enqueue it to the back. The item's starting price will decrease. Users will continue on normally after postponing a bid, simply seeing that item at the end. 
+
+It will be important to ensure that this option is only available BEFORE any player bids. After any one player bids, this option should become unavailable. 
+
 ### Non-trivial Feature Impact
+This new feature would touch the following classes and methods
+- Model
+  - `Item`
+    - `Item(String name, int startingBid, int boughtInValue)`: Constructor necessary to replicate the removed item and placing it at the back of the queue with a lower `startingBid`
+  - `Queue`
+    - `dequeue()`: Removes the current item
+    - `enqueue(E element)`: Creates a new item at the back w/ a lower `startingBid`
+  - `BiddingManager`
+    - 
+- Controller
+  - `ActionController`
+- View
+  - `ConsoleView`
+It would NOT touch any test cases, `NavigationController`, `Item`, or `User`.
+
 ### Stretch Goal Status
+- **GUI**: Commited to Implementing in the Future
+- **Auction History**: Commited to Implementing in the Future
+- **Randomized Items and Values**: Commited to Implementing in the Future
+- **Bidding Time Limit**: Commited to Implementing in the Future
+
 ### New Tests
+
 ### Ownership
+| Feature | Owner(s) | 
+| --- | --- | 
+| GUI | Ben |
+| Auction History | Krish |
+| Randomized Items and Values | Krish |
+| Bidding Time Limit | Alex |
+| Postpone Bids | Alex |
+
 
 ## Attribution Table 
 | Class | Contributor(s) | Contribution |
