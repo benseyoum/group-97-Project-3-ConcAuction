@@ -18,7 +18,7 @@ This should include the concauction package setup necessary to run.
 To compile and run the model in the Eclipse IDE, run `BiddingManagerTest` as JUnit Test. `BiddingManager` represents the ultimate aggregation of the other model classes (`Item`, `Queue`, and `User`) and is used to represent the model as a whole by the controller and view. The test classes `ItemTest`, `QueueTest`, and `UserTest` can also be ran as JUnit Test to view smaller parts of the model. 
 
 #### Running the View
-To compile and run the view in the Eclipse IDE, run `WIP` as a Java Application because it contains the main method necessary to initialize the program loop. Any other IDE should similarly run `WIP` to start the main method loop.
+To compile and run the view in the Eclipse IDE, run `concAuctionMain` as a Java Application because it contains the main method necessary to initialize the program loop. Any other IDE should similarly run `concAuctionMain` to start the main method loop.
 
 
 ### Running Tests in Eclipse
@@ -108,12 +108,17 @@ This new feature would touch the following classes and methods
     - `dequeue()`: Removes the current item
     - `enqueue(E element)`: Creates a new item at the back w/ a lower `startingBid`
   - `BiddingManager`
-    - 
+    - Would use a new method (`postponeAuction()`) that modifies field `auctionQueue` using the methods described in `Queue`
 - Controller
-  - `ActionController`
+  - `NavigationController`
+    - Would use a new field (`firstBid`) to track whether users have bid already.
+    - `checkUserBidSelect(int userID)`: This function already handles the quite request ('0') so it is reasonable that is should handle postpone requests, likely mapped to a different impossible integer - perhaps -1. If implemented, `postponeMenu` (described below) will have to be called by this new branch. 
 - View
   - `ConsoleView`
-It would NOT touch any test cases, `NavigationController`, `Item`, or `User`.
+    - `userBidSelectMenu()` would require more text explaining this mechanic.
+    - Potentially include a new method (`postponeMenu()`) that informs the users of a successful postponing. 
+
+It would NOT touch `NavigationController`, `Item`, or `User`. Any methods not directly mentioned within the specified classes should also, theoretically, not be touchded. 
 
 ### Stretch Goal Status
 - **GUI**: Commited to Implementing in the Future
@@ -122,6 +127,26 @@ It would NOT touch any test cases, `NavigationController`, `Item`, or `User`.
 - **Bidding Time Limit**: Commited to Implementing in the Future
 
 ### New Tests
+- **GUI**
+  - Requires a new class in View that opens outside the terminal
+  - Undergoes the same testing and performance expectations as `ConsoleView`
+  - Everything that is currently tested in `ConsoleView`, should be tested in a future `WindowView`
+- **Auction History**
+  - BiddingManager requires a new data structure to store transaction history; likely a stack
+  - Test `empty()`, `peek()`, `pop()`, `push(E item)` and `search(Object o)` of a stack class. 
+    - Test popping an empty stack
+    - Test popping on a one-element stack
+    - Test peeking at an empty stack
+    - Test pushing a null item 
+    - If array-based, test pushing when underlying array is full
+    - Test searching for an item that doesn't exists
+  - Requires a new `ConsoleView` method and `
+- **Randomized Items and Values**
+  - Create a large backend dataset and have `BiddingManager` randomly assign them to itself
+  - In `BiddingManagerTest`, test if randomly generated items are present in the backend dataset.
+- **Bidding Time Limit**
+- **Postpone Bids**
+
 
 ### Ownership
 | Feature | Owner(s) | 
@@ -140,8 +165,8 @@ It would NOT touch any test cases, `NavigationController`, `Item`, or `User`.
 | ActionControllerTest | Alex | Wrote, revised, completed |
 | BiddingManager | Krish & Alex | Wrote, revised, completed |
 | BiddingManagerTest | Krish & Alex | Wrote, revised, completed |
-| ConsoleView | Ben | --- |
-| ConsoleViewTest | Ben | --- |
+| ConsoleView | Ben | Wrote, revised, completed |
+| ConsoleViewTest | Ben | Wrote, revised, completed |
 | Item | Krish | Wrote, revised, completed |
 | ItemTest | Krish | Wrote, revised, completed |
 | NavigationController | Alex | Wrote, revised, completed |
