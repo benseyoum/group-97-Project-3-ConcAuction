@@ -33,12 +33,12 @@ public class BiddingManager
         highestBid = auctionQueue.peek().getStartingBid();
 
         Random rand = new Random();
-        for (int i = 0; i < rand.nextInt(3, 6); i++)
+        for (int i = 0; i < rand.nextInt(4)+3; i++)
         {
             Item newItem = new Item(
                 "Item " + (i + 1),
-                rand.nextInt(100, 300),
-                rand.nextInt(0, 200));
+                rand.nextInt(201)+100,
+                rand.nextInt(201));
             auctionQueue.enqueue(newItem);
         }
 

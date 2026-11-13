@@ -29,11 +29,11 @@ public class NavigationControllerTest
 
         view = new ConsoleView(null, null);
 
-        actionController = ActionController(biddingManager, view);
+        actionController = new ActionController(biddingManager, view);
         view.setActionController(actionController);
         
         navigationController =
-            NavigationController(biddingManager, view, actionController);
+            new NavigationController(biddingManager, view, actionController);
         view.setNavigationController(navigationController);
     }
 
@@ -52,10 +52,10 @@ public class NavigationControllerTest
 
         emptyNavigationController.checkUserBidSelect(0);
 
-        Item temp2 = biddingManager.getAuctionQueue()[0];
+        Item temp2 = biddingManager.getAuctionQueue().peek();
 
-        assertNull(actionController.currentBidder());
-        assertFalse(!temp1.getItemName().equals(temp0.getItemName()));
+        assertNull(actionController.getCurrentBidder());
+        assertFalse(!temp1.getItemName().equals(temp2.getItemName()));
     }
 
 
@@ -100,7 +100,7 @@ public class NavigationControllerTest
     {
         navigationController.checkUserSelect(3);
         navigationController.checkUserBidSelect(1);
-        assertNotNull(actionController.currentBidder());
+        assertNotNull(actionController.getCurrentBidder());
     }
 
 
@@ -112,7 +112,7 @@ public class NavigationControllerTest
     {
         navigationController.checkUserSelect(3);
         navigationController.checkUserBidSelect(4);
-        assertNull(actionController.currentBidder());
+        assertNull(actionController.getCurrentBidder());
     }
 
 
@@ -122,15 +122,15 @@ public class NavigationControllerTest
      */
     public void testUserSelectZero()
     {
-        Item temp1 = biddingManager.getAuctionQueue()[0];
+        Item temp1 = biddingManager.getAuctionQueue().peek();
 
         navigationController.checkUserSelect(3);
         navigationController.checkUserBidSelect(0);
 
-        Item temp2 = biddingManager.getAuctionQueue()[0];
+        Item temp2 = biddingManager.getAuctionQueue().peek();
 
-        assertNull(actionController.currentBidder());
-        assertFalse(!temp1.getItemName().equals(temp0.getItemName()));
+        assertNull(actionController.getCurrentBidder());
+        assertFalse(!temp1.getItemName().equals(temp2.getItemName()));
     }
 
 }

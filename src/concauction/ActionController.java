@@ -98,6 +98,17 @@ public class ActionController
 
     // ----------------------------------------------------------
     /**
+     * Get current bidder
+     * 
+     * @return current bidder
+     */
+    public User getCurrentBidder()
+    {
+        return currentBidder;
+    }
+    
+    // ----------------------------------------------------------
+    /**
      * Set current bidder
      * 
      * @param newBidder
