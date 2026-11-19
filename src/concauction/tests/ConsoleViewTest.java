@@ -115,7 +115,7 @@ public class ConsoleViewTest
 
         assertTrue(outputBytes.toString().contains("3 players"));
 
-        assertTrue(outputBytes.toString().contains("0 to finish"));
+        assertTrue(outputBytes.toString().contains("'quit' to finish"));
     }
 
     // ----------------------------------------------------------
@@ -186,5 +186,16 @@ public class ConsoleViewTest
 
         assertTrue(printed.contains("FINAL STANDINGS"));
         assertTrue(printed.contains("Player 2 - $1200"));
+    }
+    
+    // ----------------------------------------------------------
+    /**
+     * Test postpone menu
+     */
+    public void testPostponeMenu()
+    {
+        view.postponeMenu();
+
+        assertTrue(outputBytes.toString().contains("Successfully postpone"));
     }
 }

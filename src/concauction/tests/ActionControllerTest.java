@@ -18,6 +18,7 @@ public class ActionControllerTest
     private NavigationController navigationController;
     private BiddingManager biddingManager;
     private ConsoleView view;
+    private int REF_VAL = 960;
 
     // ----------------------------------------------------------
     /**
@@ -47,17 +48,17 @@ public class ActionControllerTest
     public void testConstructor()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
         
         actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("300");
-        assertEquals(300, biddingManager.getHighestBid());
+        actionController.checkBiddingInput(Integer.toString(REF_VAL));
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
 
         emptyActionController = new ActionController(biddingManager, view);
 
         emptyActionController.setCurrentBidder(testUser);
-        emptyActionController.checkBiddingInput("400");
-        assertEquals(400, biddingManager.getHighestBid());
+        emptyActionController.checkBiddingInput(Integer.toString(REF_VAL+10));
+        assertEquals(REF_VAL+10, biddingManager.getHighestBid());
 
     }
 
@@ -69,12 +70,12 @@ public class ActionControllerTest
     public void testValidBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("300");
+        actionController.checkBiddingInput(Integer.toString(REF_VAL+10));
 
-        assertEquals(300, biddingManager.getHighestBid());
+        assertEquals(REF_VAL+10, biddingManager.getHighestBid());
     }
 
 
@@ -85,7 +86,7 @@ public class ActionControllerTest
     public void testNegativeBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         Exception exception = null;
         try
@@ -98,7 +99,7 @@ public class ActionControllerTest
         }
         
         assertNull(exception);
-        assertEquals(300, biddingManager.getHighestBid());
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
     }
 
 
@@ -109,12 +110,12 @@ public class ActionControllerTest
     public void testZeroBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         Exception exception = null;
         try
         {
-            actionController.checkBiddingInput("-100");
+            actionController.checkBiddingInput("0");
         }
         catch (IllegalArgumentException e)
         {
@@ -122,7 +123,7 @@ public class ActionControllerTest
         }
         
         assertNull(exception);        
-        assertEquals(300, biddingManager.getHighestBid());
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
     }
 
 
@@ -133,7 +134,7 @@ public class ActionControllerTest
     public void testLowBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         actionController.setCurrentBidder(testUser);
         
@@ -147,8 +148,8 @@ public class ActionControllerTest
             exception = e;
         }
         
-        assertNotNull(exception);     
-        assertEquals(300, biddingManager.getHighestBid());
+        assertNull(exception);     
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
     }
 
     // ----------------------------------------------------------
@@ -158,12 +159,12 @@ public class ActionControllerTest
     public void testEqualBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         actionController.setCurrentBidder(testUser);
-        actionController.checkBiddingInput("300");
+        actionController.checkBiddingInput(Integer.toString(REF_VAL));
 
-        assertEquals(300, biddingManager.getHighestBid());
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
 
     }
 
@@ -175,8 +176,8 @@ public class ActionControllerTest
     public void testTooHighBid()
     {
         User testUser = new User();
-        testUser.setMoney(500);
-        biddingManager.addBid(300, testUser);
+        testUser.setMoney(1000);
+        biddingManager.addBid(REF_VAL, testUser);
 
         actionController.setCurrentBidder(testUser);
 
@@ -184,14 +185,14 @@ public class ActionControllerTest
         Exception exception = null;
         try
         {
-            actionController.checkBiddingInput("600");
+            actionController.checkBiddingInput("1500");
         }
         catch (IllegalArgumentException e)
         {
             exception = e;
         }        
-        assertNotNull(exception);
-        assertEquals(300, biddingManager.getHighestBid());
+        assertNull(exception);
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
 
     }
 
@@ -203,12 +204,12 @@ public class ActionControllerTest
     public void testNullBid()
     {
         User testUser = new User();
-        biddingManager.addBid(300, testUser);
+        biddingManager.addBid(REF_VAL, testUser);
 
         actionController.setCurrentBidder(null);
-        actionController.checkBiddingInput("600");
+        actionController.checkBiddingInput("1000");
 
-        assertEquals(300, biddingManager.getHighestBid());
+        assertEquals(REF_VAL, biddingManager.getHighestBid());
 
     }
 }

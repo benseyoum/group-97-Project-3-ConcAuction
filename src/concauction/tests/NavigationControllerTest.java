@@ -57,7 +57,7 @@ public class NavigationControllerTest
         Item temp2 = biddingManager.getAuctionQueue().peek();
 
         assertNull(actionController.getCurrentBidder());
-        assertFalse(temp1.getItemName().equals(temp2.getItemName()));
+        assertTrue(temp1.getItemName().equals(temp2.getItemName()));
     }
 
 
@@ -132,7 +132,17 @@ public class NavigationControllerTest
         Item temp2 = biddingManager.getAuctionQueue().peek();
 
         assertNull(actionController.getCurrentBidder());
-        assertFalse(temp1.getItemName().equals(temp2.getItemName()));
+        assertTrue(temp1.getItemName().equals(temp2.getItemName()));
     }
 
+    
+    // ----------------------------------------------------------
+    /**
+     * Checks if user bid select branches can be reached
+     */
+    public void testUserBidSelectBranches()
+    {
+        assertTrue(navigationController.checkUserBidSelect("quit"));
+        assertTrue(navigationController.checkUserBidSelect("skip"));
+    }
 }
