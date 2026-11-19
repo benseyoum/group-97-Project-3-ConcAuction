@@ -116,7 +116,7 @@ This new feature would touch the following classes and methods
     - `userBidSelectMenu()` would require more text explaining this mechanic.
     - Potentially include a new method (`postponeMenu()`) that informs the users of a successful postponing. 
 
-It would NOT touch `NavigationController`, `Item`, or `User`. Any methods not directly mentioned within the specified classes should also, theoretically, not be touchded. 
+It would NOT touch `ActionController`, `Item`, or `User`. Any methods not directly mentioned within the specified classes should also, theoretically, not be touchded. 
 
 ### Stretch Goal Status
 - **GUI**: Commited to Implementing in the Future
