@@ -57,7 +57,7 @@ public class NavigationController
         }
         else
         {
-            actionController = new ActionController(biddingManager, view);
+            this.actionController = new ActionController(biddingManager, view);
         }
         
         if (updateView) {
@@ -72,8 +72,9 @@ public class NavigationController
     /**
      * Checks if the user count is valid and runs next steps.
      * @param inputUserCount 
+     * @return true if all checks passed
      */
-    public void checkUserSelect(String inputUserCount)
+    public boolean checkUserSelect(String inputUserCount)
     {
         int userCount;
         
@@ -86,18 +87,20 @@ public class NavigationController
                 {
                     biddingManager.addUser();
                 }
+                view.setPlayerCount(userCount);
+                view.setCurrentAuctionItem(biddingManager.getAuctionQueue().peek());
                 view.auctionMenu();
+                return true;
             }
-            else
-            {
-                view.errorMenu();
-                view.userSelectMenu();
-            }
-        }
-        else {
             view.errorMenu();
             view.userSelectMenu();
         }
+        else {
+            view.errorMenu();
+            view.showError("Enter a whole number from 2 to 4.");
+            view.userSelectMenu();
+        }
+        return false;
     }
 
 
@@ -105,11 +108,12 @@ public class NavigationController
     /**
      * Checks if the user id to bid selection is valid and runs next steps.
      * @param inputUserId 
+     * @return true if all checks passed
      */
-    public void checkUserBidSelect(String inputUserId)
+    public boolean checkUserBidSelect(String inputUserId)
     {
         int userId;
-       
+        
         if (checkIfInt(inputUserId)) {
             userId = Integer.parseInt(inputUserId);
             User user = biddingManager.findUser(userId);
@@ -118,32 +122,33 @@ public class NavigationController
             {
                 actionController.setCurrentBidder(user);
                 view.biddingMenu();
+                return true;
             }
-            else if (userId == 0) // Finish check
-            {
-                biddingManager.finishAuction();
-                if (biddingManager.getAuctionQueue().isEmpty()) // No auction items
-                                                                // left check
-                {
-                    view.finalWinScreenMenu();
-                }
-                else
-                {
-                    view.bidWinScreenMenu();
-                    biddingManager.resetFinish();
-                    view.auctionMenu();
-                }
-            }
-            else
-            {
-                view.errorMenu();
-                view.userBidSelectMenu();
-            }
-        }
-        else {
             view.errorMenu();
             view.userBidSelectMenu();
         }
+        else if (inputUserId.equals("quit")) // Finish check
+        {
+            biddingManager.finishAuction();
+            if (biddingManager.getAuctionQueue().isEmpty()) // No auction items
+                                                            // left check
+            {
+                view.finalWinScreenMenu();
+            }
+            else
+            {
+                view.bidWinScreenMenu();
+                biddingManager.resetFinish();
+                view.auctionMenu();
+            }
+            return true;
+        }
+        else {
+            view.errorMenu();
+            view.showError("Enter a numeric player ID, or 'quit'.");
+            view.userBidSelectMenu();
+        }
+        return false;
     }
 
 

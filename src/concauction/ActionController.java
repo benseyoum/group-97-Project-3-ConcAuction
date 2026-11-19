@@ -59,8 +59,9 @@ public class ActionController
      * Checks if the bid input is valid
      * 
      * @param bid
+     * @return true if all checks passed
      */
-    public void checkBiddingInput(String bid)
+    public boolean checkBiddingInput(String bid)
     {
         try
         {
@@ -68,33 +69,39 @@ public class ActionController
             if (currentBidder == null) // Null bidder check
             {
                 errorAndAuctionMenu();
+                return false;
             }
-            else
+            if (bidInt <= 0) // Non-positive check
             {
-                if (bidInt <= 0) // Non-positive check
-                {
-                    errorAndAuctionMenu();
+                errorAndAuctionMenu();
+                return false;
 
-                }
-                if (bidInt > currentBidder.getMoney()) // Exceeded money check
-                {
-                    errorAndAuctionMenu();
-                }
-                if (bidInt < biddingManager.getHighestBid()) // Under money
-                                                             // check
-                {
-                    errorAndAuctionMenu();
-                }
-
-                biddingManager.addBid(bidInt, currentBidder);
-                view.auctionMenu();
             }
+            if (bidInt > currentBidder.getMoney()) // Exceeded money check
+            {
+                errorAndAuctionMenu();
+                return false;
+
+            }
+            if (bidInt < biddingManager.getHighestBid()) // Under money
+                                                         // check
+            {
+                errorAndAuctionMenu();
+                return false;
+
+            }
+
+            biddingManager.addBid(bidInt, currentBidder);
+            view.auctionMenu();
+            return true;
         }
         catch (NumberFormatException e) // Non-int check
         {
             errorAndAuctionMenu();
+            return false;
         }
     }
+
 
     // ----------------------------------------------------------
     /**
@@ -125,7 +132,7 @@ public class ActionController
     // ----------------------------------------------------------
     private void errorAndAuctionMenu()
     {
-        view.errorMenu();
         view.auctionMenu();
+        view.errorMenu();
     }
 }
