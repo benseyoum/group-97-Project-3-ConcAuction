@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class ConsoleView implements Observer
 {
     private ActionController actionController;
+    @SuppressWarnings("unused")
     private NavigationController navigationController;
     private final Scanner input;
     private final PrintStream output;
@@ -28,6 +29,12 @@ public class ConsoleView implements Observer
     private int playerCount;
     private List<String> finalStandingLines;
 
+    // ----------------------------------------------------------
+    /**
+     * Create a new ConsoleView object.
+     * @param actionController
+     * @param navigationController
+     */
     public ConsoleView(
         ActionController actionController,
         NavigationController navigationController)
@@ -36,7 +43,15 @@ public class ConsoleView implements Observer
             new Scanner(System.in), System.out);
     }
 
-    ConsoleView(
+    // ----------------------------------------------------------
+    /**
+     * Create a new ConsoleView object.
+     * @param actionController
+     * @param navigationController
+     * @param input
+     * @param output
+     */
+    public ConsoleView(
         ActionController actionController,
         NavigationController navigationController,
         Scanner input,
@@ -50,26 +65,51 @@ public class ConsoleView implements Observer
         this.finalStandingLines = new ArrayList<String>();
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Set action controller
+     * @param controller
+     */
     public void setActionController(ActionController controller)
     {
         actionController = controller;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Set navigation controller
+     * @param controller
+     */
     public void setNavigationController(NavigationController controller)
     {
         navigationController = controller;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Set player count
+     * @param count
+     */
     public void setPlayerCount(int count)
     {
         playerCount = count;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Set current action item
+     * @param item
+     */
     public void setCurrentAuctionItem(Item item)
     {
         currentAuctionItem = item;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Set final standings
+     * @param lines
+     */
     public void setFinalStandings(List<String> lines)
     {
         finalStandingLines = new ArrayList<String>();
@@ -88,6 +128,10 @@ public class ConsoleView implements Observer
         currentWinningUser = leadingUser;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View user select menu
+     */
     public void userSelectMenu()
     {
         output.println("\n=== CONCAUCTION ===");
@@ -95,6 +139,10 @@ public class ConsoleView implements Observer
         output.print("Number of players (2-4): ");
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View auction menu
+     */
     public void auctionMenu()
     {
         output.println("\n------------------------------");
@@ -121,6 +169,10 @@ public class ConsoleView implements Observer
         output.println("------------------------------");
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View user bid select menu
+     */
     public void userBidSelectMenu()
     {
         output.println("\nChoose a player to bid"
@@ -130,9 +182,13 @@ public class ConsoleView implements Observer
             + ".");
 
         output.print(
-            "Enter player ID, or 0 to finish this auction: ");
+            "Enter player ID, or 'quit' to finish this auction: ");
     }
-
+    
+    // ----------------------------------------------------------
+    /**
+     * View bidding menu
+     */
     public void biddingMenu()
     {
         if (actionController != null
@@ -150,6 +206,10 @@ public class ConsoleView implements Observer
             "Enter bid (at least $" + highestBid + "): ");
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View bid win menu
+     */
     public void bidWinScreenMenu()
     {
         output.println("\n=== AUCTION RESULT ===");
@@ -185,6 +245,10 @@ public class ConsoleView implements Observer
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View final winner menu
+     */
     public void finalWinScreenMenu()
     {
         output.println("\n=== FINAL STANDINGS ===");
@@ -204,17 +268,31 @@ public class ConsoleView implements Observer
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * View error menu
+     */
     public void errorMenu()
     {
         showError(
             "Invalid selection or bid. Please try again.");
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Show specific error
+     * @param message
+     */
     public void showError(String message)
     {
         output.println("Error: " + message);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Read user input
+     * @return String user input
+     */
     public String readInput()
     {
         if (!input.hasNextLine())
