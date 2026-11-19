@@ -145,7 +145,7 @@ public class ConsoleView implements Observer
      */
     public void auctionMenu()
     {
-        output.println("\n------------------------------");
+        output.println("------------------------------");
 
         if (auctionItem.isEmpty())
         {
@@ -166,7 +166,6 @@ public class ConsoleView implements Observer
                 "Leading player: " + currentWinningUser.getID());
         }
 
-        output.println("------------------------------");
     }
 
     // ----------------------------------------------------------
@@ -175,14 +174,15 @@ public class ConsoleView implements Observer
      */
     public void userBidSelectMenu()
     {
-        output.println("\nChoose a player to bid"
+        output.println("------------------------------");
+        output.println("Choose a player to bid"
             + (playerCount > 0
                 ? " (" + playerCount + " players)"
                 : "")
             + ".");
 
         output.print(
-            "Enter player ID; 'quit' to finish this auction; 'skip' to postpone current item: ");
+            "Enter player ID\nEnter 'quit' to finish this auction\nEnter 'skip' to postpone current item: ");
     }
     
     // ----------------------------------------------------------
@@ -191,6 +191,7 @@ public class ConsoleView implements Observer
      */
     public void postponeMenu()
     {
+        output.println("------------------------------");
         output.println(
             "Successfully postponed " + auctionItem + "!");
     }
@@ -201,6 +202,7 @@ public class ConsoleView implements Observer
      */
     public void biddingMenu()
     {
+        output.println("------------------------------");
         if (actionController != null
             && actionController.getCurrentBidder() != null)
         {
@@ -284,6 +286,7 @@ public class ConsoleView implements Observer
      */
     public void errorMenu()
     {
+        output.println("------------------------------");
         showError(
             "Invalid selection or bid. Please try again.");
     }
