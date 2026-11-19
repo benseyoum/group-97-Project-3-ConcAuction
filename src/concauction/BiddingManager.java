@@ -32,15 +32,25 @@ public class BiddingManager
         observerList = new ArrayList<Observer>();
 
         Random rand = new Random();
-        for (int i = 0; i < rand.nextInt(4)+3; i++)
+        int itemCount = 5;
+
+        boolean[] used = new boolean[ItemCatalog.ItemPool.length];
+
+        for (int i = 0; i < itemCount; i++)
         {
-            Item newItem = new Item(
-                "Item " + (i + 1),
-                rand.nextInt(201)+100,
-                rand.nextInt(201));
-            auctionQueue.enqueue(newItem);
+            int index = rand.nextInt(ItemCatalog.ItemPool.length);
+
+            while (used[index])
+            {
+                index = rand.nextInt(ItemCatalog.ItemPool.length);
+            }
+
+            used[index] = true;
+
+            Item item = ItemCatalog.ItemPool[index];
+            auctionQueue.enqueue(item);
         }
-        
+
         highestBid = auctionQueue.peek().getStartingBid();
     }
     // ~Public Methods ........................................................
