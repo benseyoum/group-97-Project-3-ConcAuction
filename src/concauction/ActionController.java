@@ -134,5 +134,6 @@ public class ActionController
     {
         view.auctionMenu();
         view.errorMenu();
+        view.biddingMenu();
     }
 }

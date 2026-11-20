@@ -15,5 +15,5 @@ public interface Observer {
      * @param auctionItem 
      * @param currentWinningUser 
      */
-    void update(int highestBid, String auctionItem, User currentWinningUser);
+    void update(int highestBid, Item auctionItem, User currentWinningUser);
 }

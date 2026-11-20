@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 /**
- * Console presentation for ConcAuction.
- * Auction decisions belong to the model;
+ * Console presentation for ConcAuction. Auction decisions belong to the model;
  * validation and navigation belong to the controllers.
  *
  * @author Ben Seyoum (benseyoum)
  * @version 2026-11-13
  */
-public class ConsoleView implements Observer
+public class ConsoleView
+    implements Observer
 {
     private ActionController actionController;
     @SuppressWarnings("unused")
@@ -23,7 +22,7 @@ public class ConsoleView implements Observer
     private final PrintStream output;
 
     private int highestBid;
-    private String auctionItem;
+    private String currentAuctionItemName;
     private User currentWinningUser;
     private Item currentAuctionItem;
     private int playerCount;
@@ -32,6 +31,7 @@ public class ConsoleView implements Observer
     // ----------------------------------------------------------
     /**
      * Create a new ConsoleView object.
+     * 
      * @param actionController
      * @param navigationController
      */
@@ -39,13 +39,18 @@ public class ConsoleView implements Observer
         ActionController actionController,
         NavigationController navigationController)
     {
-        this(actionController, navigationController,
-            new Scanner(System.in), System.out);
+        this(
+            actionController,
+            navigationController,
+            new Scanner(System.in),
+            System.out);
     }
+
 
     // ----------------------------------------------------------
     /**
      * Create a new ConsoleView object.
+     * 
      * @param actionController
      * @param navigationController
      * @param input
@@ -61,13 +66,15 @@ public class ConsoleView implements Observer
         this.navigationController = navigationController;
         this.input = input;
         this.output = output;
-        this.auctionItem = "";
+        this.currentAuctionItemName = "";
         this.finalStandingLines = new ArrayList<String>();
     }
+
 
     // ----------------------------------------------------------
     /**
      * Set action controller
+     * 
      * @param controller
      */
     public void setActionController(ActionController controller)
@@ -75,9 +82,11 @@ public class ConsoleView implements Observer
         actionController = controller;
     }
 
+
     // ----------------------------------------------------------
     /**
      * Set navigation controller
+     * 
      * @param controller
      */
     public void setNavigationController(NavigationController controller)
@@ -85,9 +94,11 @@ public class ConsoleView implements Observer
         navigationController = controller;
     }
 
+
     // ----------------------------------------------------------
     /**
      * Set player count
+     * 
      * @param count
      */
     public void setPlayerCount(int count)
@@ -95,9 +106,11 @@ public class ConsoleView implements Observer
         playerCount = count;
     }
 
+
     // ----------------------------------------------------------
     /**
      * Set current action item
+     * 
      * @param item
      */
     public void setCurrentAuctionItem(Item item)
@@ -105,9 +118,11 @@ public class ConsoleView implements Observer
         currentAuctionItem = item;
     }
 
+
     // ----------------------------------------------------------
     /**
      * Set final standings
+     * 
      * @param lines
      */
     public void setFinalStandings(List<String> lines)
@@ -120,13 +135,16 @@ public class ConsoleView implements Observer
         }
     }
 
+
     @Override
-    public void update(int bid, String itemName, User leadingUser)
+    public void update(int bid, Item item, User leadingUser)
     {
         highestBid = bid;
-        auctionItem = itemName == null ? "" : itemName;
+        currentAuctionItem = item;
+        currentAuctionItemName = item.getItemName();
         currentWinningUser = leadingUser;
     }
+
 
     // ----------------------------------------------------------
     /**
@@ -139,6 +157,7 @@ public class ConsoleView implements Observer
         output.print("Number of players (2-4): ");
     }
 
+
     // ----------------------------------------------------------
     /**
      * View auction menu
@@ -147,13 +166,13 @@ public class ConsoleView implements Observer
     {
         output.println("------------------------------");
 
-        if (auctionItem.isEmpty())
+        if (currentAuctionItemName.isEmpty())
         {
             output.println("No active auction item.");
             return;
         }
 
-        output.println("Item: " + auctionItem);
+        output.println("Item: " + currentAuctionItemName);
         output.println("Current highest bid: $" + highestBid);
 
         if (currentWinningUser == null)
@@ -162,11 +181,11 @@ public class ConsoleView implements Observer
         }
         else
         {
-            output.println(
-                "Leading player: " + currentWinningUser.getID());
+            output.println("Leading player: " + currentWinningUser.getID());
         }
 
     }
+
 
     // ----------------------------------------------------------
     /**
@@ -175,16 +194,25 @@ public class ConsoleView implements Observer
     public void userBidSelectMenu()
     {
         output.println("------------------------------");
-        output.println("Choose a player to bid"
-            + (playerCount > 0
-                ? " (" + playerCount + " players)"
-                : "")
-            + ".");
+        output.println(
+            "Choose a player to bid"
+                + (playerCount > 0 ? " (" + playerCount + " players)" : "")
+                + ".");
 
-        output.print(
-            "Enter player ID\nEnter 'quit' to finish this auction\nEnter 'skip' to postpone current item: ");
+        output.print("Enter player ID\nEnter 'quit' to finish this auction\n");
     }
-    
+
+
+    // ----------------------------------------------------------
+    /**
+     * Prints when the user(s) are allowed to skip
+     */
+    public void userBidSelectMenuSkipLine()
+    {
+        output.print("Enter 'skip' to postpone current item\n");
+    }
+
+
     // ----------------------------------------------------------
     /**
      * View postpone success menu
@@ -192,10 +220,11 @@ public class ConsoleView implements Observer
     public void postponeMenu()
     {
         output.println("------------------------------");
-        output.println(
-            "Successfully postponed " + auctionItem + "!");
+        output
+            .println("Successfully postponed " + currentAuctionItemName + "!");
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * View bidding menu
@@ -209,14 +238,13 @@ public class ConsoleView implements Observer
             User bidder = actionController.getCurrentBidder();
 
             output.println(
-                "Player " + bidder.getID()
-                + " has $" + bidder.getMoney()
-                + " available.");
+                "Player " + bidder.getID() + " has $" + bidder.getMoney()
+                    + " available.");
         }
 
-        output.print(
-            "Enter bid (at least $" + highestBid + "): ");
+        output.print("Enter bid (at least $" + highestBid + "): ");
     }
+
 
     // ----------------------------------------------------------
     /**
@@ -232,30 +260,28 @@ public class ConsoleView implements Observer
             return;
         }
 
-        output.println(
-            "Item: " + currentAuctionItem.getItemName());
+        output.println("Item: " + currentAuctionItem.getItemName());
 
         boolean sold = currentWinningUser != null
-            && currentWinningUser.getInventory()
-                .contains(currentAuctionItem);
+            && currentWinningUser.getInventory().contains(currentAuctionItem);
 
         if (sold)
         {
             output.println(
-                "Sold to player "
-                + currentWinningUser.getID()
-                + " for $" + highestBid + "!");
+                "Sold to player " + currentWinningUser.getID() + " for $"
+                    + highestBid + "!");
 
             output.println(
-                "Remaining balance: $"
-                + currentWinningUser.getMoney());
+                "Remaining balance: $" + currentWinningUser.getMoney());
         }
         else
         {
+            output.println("Unsold: no qualifying winning bid.");
             output.println(
-                "Unsold: no qualifying winning bid.");
+                "Bought in value: $" + currentAuctionItem.getBoughtInValue());
         }
     }
+
 
     // ----------------------------------------------------------
     /**
@@ -268,8 +294,7 @@ public class ConsoleView implements Observer
         if (finalStandingLines.isEmpty())
         {
             output.println(
-                "Standings not supplied yet by "
-                + "the model/controller.");
+                "Standings not supplied yet by " + "the model/controller.");
         }
         else
         {
@@ -280,6 +305,7 @@ public class ConsoleView implements Observer
         }
     }
 
+
     // ----------------------------------------------------------
     /**
      * View error menu
@@ -287,13 +313,14 @@ public class ConsoleView implements Observer
     public void errorMenu()
     {
         output.println("------------------------------");
-        showError(
-            "Invalid selection or bid. Please try again.");
+        showError("Invalid selection or bid. Please try again.");
     }
+
 
     // ----------------------------------------------------------
     /**
      * Show specific error
+     * 
      * @param message
      */
     public void showError(String message)
@@ -301,9 +328,11 @@ public class ConsoleView implements Observer
         output.println("Error: " + message);
     }
 
+
     // ----------------------------------------------------------
     /**
      * Read user input
+     * 
      * @return String user input
      */
     public String readInput()

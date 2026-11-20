@@ -31,7 +31,7 @@ public class NavigationController
         ActionController actionController)
     {
         boolean updateView = false;
-        
+
         if (biddingManager != null)
         {
             this.biddingManager = biddingManager;
@@ -50,17 +50,18 @@ public class NavigationController
             updateView = true;
             view = new ConsoleView(null, this);
         }
-        
+
         if (actionController != null)
-        {  
+        {
             this.actionController = actionController;
         }
         else
         {
             this.actionController = new ActionController(biddingManager, view);
         }
-        
-        if (updateView) {
+
+        if (updateView)
+        {
             view.setActionController(actionController);
         }
     }
@@ -71,16 +72,18 @@ public class NavigationController
     // ----------------------------------------------------------
     /**
      * Checks if the user count is valid and runs next steps.
-     * @param inputUserCount 
+     * 
+     * @param inputUserCount
      * @return true if all checks passed
      */
     public boolean checkUserSelect(String inputUserCount)
     {
         int userCount;
-        
-        if (checkIfInt(inputUserCount)) {
+
+        if (checkIfInt(inputUserCount))
+        {
             userCount = Integer.parseInt(inputUserCount);
-            
+
             if (2 <= userCount && userCount <= 4) // User range check
             {
                 for (int i = 0; i < userCount; i++)
@@ -88,14 +91,16 @@ public class NavigationController
                     biddingManager.addUser();
                 }
                 view.setPlayerCount(userCount);
-                view.setCurrentAuctionItem(biddingManager.getAuctionQueue().peek());
+                view.setCurrentAuctionItem(
+                    biddingManager.getAuctionQueue().peek());
                 view.auctionMenu();
                 return true;
             }
             view.errorMenu();
             view.userSelectMenu();
         }
-        else {
+        else
+        {
             view.errorMenu();
             view.showError("Enter a whole number from 2 to 4.");
             view.userSelectMenu();
@@ -107,14 +112,16 @@ public class NavigationController
     // ----------------------------------------------------------
     /**
      * Checks if the user id to bid selection is valid and runs next steps.
-     * @param inputUserId 
+     * 
+     * @param inputUserId
      * @return true if all checks passed
      */
     public boolean checkUserBidSelect(String inputUserId)
     {
         int userId;
-        
-        if (checkIfInt(inputUserId)) {
+
+        if (checkIfInt(inputUserId))
+        {
             userId = Integer.parseInt(inputUserId);
             User user = biddingManager.findUser(userId);
 
@@ -125,8 +132,9 @@ public class NavigationController
                 return true;
             }
             view.errorMenu();
-            view.userBidSelectMenu();
+            dynamicUserBidSelectMenu();
         }
+        
         else if (inputUserId.equals("quit")) // Finish check
         {
             biddingManager.finishAuction();
@@ -143,27 +151,44 @@ public class NavigationController
             }
             return true;
         }
+        
         else if (inputUserId.equals("skip")) // Skip check
         {
-            if (biddingManager.getAuctionQueue().size() > 1) {
-                biddingManager.postponeBid();
-                view.postponeMenu();
-                biddingManager.resetFinish(false);
-                view.auctionMenu();
-                return true;
+            if (biddingManager.getAuctionQueue().size() > 1)
+            {
+                if (biddingManager.getWinningUser() == null)
+                {
+                    view.postponeMenu();
+                    biddingManager.postponeBid();
+                    biddingManager.resetFinish(false);
+                    view.auctionMenu();
+                    return true;
+                }
+                view.errorMenu();
+                view.showError("Cannot skip after someone already bid.");
+                dynamicUserBidSelectMenu();
+                return false;
             }
             view.errorMenu();
             view.showError("Last item to be auctioned, cannot be postponed.");
-            view.userBidSelectMenu();
-            biddingManager.postponeBid();
+            dynamicUserBidSelectMenu();
             return false;
         }
-        else {
+        else
+        {
             view.errorMenu();
             view.showError("Enter a numeric player ID, 'quit', or 'skip'.");
-            view.userBidSelectMenu();
+            dynamicUserBidSelectMenu();
         }
         return false;
+    }
+    
+    private void dynamicUserBidSelectMenu() {
+        view.userBidSelectMenu();
+        if (biddingManager.getWinningUser() == null)
+        {
+            view.userBidSelectMenuSkipLine();
+        }
     }
 
 

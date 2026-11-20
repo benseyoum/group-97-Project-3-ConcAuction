@@ -116,6 +116,17 @@ public class BiddingManager
     }
 
 
+    /**
+     * Returns the current winning user
+     *
+     * @return the winning user
+     */
+    public User getWinningUser()
+    {
+        return userQueue.peek();
+    }
+
+
     // ----------------------------------------------------------
     /**
      * adds a bid and keeps track of the highest bid
@@ -155,7 +166,6 @@ public class BiddingManager
      */
     public void postponeBid()
     {
-        System.out.print(auctionQueue.size());
         Item first = auctionQueue.dequeue();
         Item updated = new Item(
             new String(first.getItemName()),
@@ -186,12 +196,12 @@ public class BiddingManager
      */
     private void notifyObservers()
     {
-        String itemName = "";
+        Item newItem = null;
         User winningUser = null;
 
         if (!auctionQueue.isEmpty())
         {
-            itemName = auctionQueue.peek().getItemName();
+            newItem = auctionQueue.peek();
         }
 
         if (!userQueue.isEmpty())
@@ -201,7 +211,7 @@ public class BiddingManager
 
         for (Observer observer : observerList)
         {
-            observer.update(highestBid, itemName, winningUser);
+            observer.update(highestBid, newItem, winningUser);
         }
     }
 
@@ -232,11 +242,13 @@ public class BiddingManager
 
     /**
      * Resets variables used to finish auction
-     * @param shouldDequeue 
+     * 
+     * @param shouldDequeue
      */
     public void resetFinish(boolean shouldDequeue)
     {
-        if (shouldDequeue) {
+        if (shouldDequeue)
+        {
             auctionQueue.dequeue();
         }
         userQueue = new Queue<User>();

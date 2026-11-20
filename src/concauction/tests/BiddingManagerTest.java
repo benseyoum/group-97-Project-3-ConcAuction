@@ -11,29 +11,33 @@ import student.TestCase;
  * @author krish
  * @version Nov 13, 2026
  */
-public class BiddingManagerTest extends TestCase
+public class BiddingManagerTest
+    extends TestCase
 {
     private BiddingManager manager;
 
-    private static class MockObserver implements Observer
+    private static class MockObserver
+        implements Observer
     {
         private int lastBid;
-        private String lastItemName;
+        private String lastItemName = "";
         private User lastWinner;
         private int updateCount;
 
-        public void update(
-            int highestBid,
-            String itemName,
-            User winningUser)
+        public void update(int highestBid, Item item, User winningUser)
         {
             lastBid = highestBid;
-            lastItemName = itemName;
+            if (item != null)
+            {
+                lastItemName = item.getItemName();
+            }
+            else {
+                lastItemName = "";
+            }
             lastWinner = winningUser;
             updateCount++;
         }
     }
-
 
     /**
      * sets up the bidding manager
@@ -54,9 +58,7 @@ public class BiddingManagerTest extends TestCase
         assertFalse(queue.isEmpty());
         assertNotNull(queue.peek());
 
-        assertEquals(
-            queue.peek().getStartingBid(),
-            manager.getHighestBid());
+        assertEquals(queue.peek().getStartingBid(), manager.getHighestBid());
 
         int count = 0;
 
@@ -129,8 +131,7 @@ public class BiddingManagerTest extends TestCase
 
         User user = new User();
 
-        String itemName =
-            manager.getAuctionQueue().peek().getItemName();
+        String itemName = manager.getAuctionQueue().peek().getItemName();
 
         int bid = manager.getHighestBid() + 1;
         manager.addBid(bid, user);
@@ -370,9 +371,7 @@ public class BiddingManagerTest extends TestCase
 
         assertFalse(firstItem == queue.peek());
 
-        assertEquals(
-            queue.peek().getStartingBid(),
-            manager.getHighestBid());
+        assertEquals(queue.peek().getStartingBid(), manager.getHighestBid());
 
         while (!queue.isEmpty())
         {
@@ -395,7 +394,8 @@ public class BiddingManagerTest extends TestCase
 
         assertEquals(5, queue.size());
 
-        assertEquals(queue.peek().getStartingBid(),
+        assertEquals(
+            queue.peek().getStartingBid(),
             randomManager.getHighestBid());
 
         while (!queue.isEmpty())
@@ -405,8 +405,7 @@ public class BiddingManagerTest extends TestCase
 
             for (Item catalogItem : ItemCatalog.ItemPool)
             {
-                if (catalogItem.getItemName().equals(
-                    item.getItemName()))
+                if (catalogItem.getItemName().equals(item.getItemName()))
                 {
                     found = true;
                 }
@@ -438,18 +437,20 @@ public class BiddingManagerTest extends TestCase
 
         assertEquals(5, names.size());
     }
-    
+
+
     // ----------------------------------------------------------
     /**
      * tests if postponing sets order correctly
      */
-    public void testPostponeBid() {
+    public void testPostponeBid()
+    {
         BiddingManager randomManager = new BiddingManager();
         Queue<Item> queue = randomManager.getAuctionQueue();
         Queue<Item> queue2 = new Queue<>();
         Item[] itemArr = new Item[5];
         Item[] itemArrPostPoned = new Item[5];
-        
+
         int i = 0;
         while (!queue.isEmpty())
         {
@@ -459,26 +460,31 @@ public class BiddingManagerTest extends TestCase
             itemArr[i] = item;
             i++;
         }
-        
+
         while (!queue2.isEmpty())
         {
             Item item = queue2.dequeue();
             queue.enqueue(item);
         }
         randomManager.postponeBid();
-        
-        i=0;
+
+        i = 0;
         while (!queue.isEmpty())
         {
             Item item = queue.dequeue();
             itemArrPostPoned[i] = item;
             i++;
         }
-        
-        assertEquals(itemArr[1].getItemName(), itemArrPostPoned[0].getItemName());
-        assertEquals(itemArr[0].getItemName(), itemArrPostPoned[4].getItemName());
+
+        assertEquals(
+            itemArr[1].getItemName(),
+            itemArrPostPoned[0].getItemName());
+        assertEquals(
+            itemArr[0].getItemName(),
+            itemArrPostPoned[4].getItemName());
     }
-    
+
+
     /**
      * tests observer updates when the queue is empty
      */
@@ -500,9 +506,8 @@ public class BiddingManagerTest extends TestCase
         assertNull(observer.lastWinner);
         assertEquals(0, observer.lastBid);
     }
-    
-    
-    
+
+
     // ----------------------------------------------------------
     /**
      * tests observer updates
@@ -525,8 +530,7 @@ public class BiddingManagerTest extends TestCase
             manager.getAuctionQueue().peek().getItemName(),
             observer.lastItemName);
 
-        assertEquals(manager.getHighestBid(),
-            observer.lastBid);
+        assertEquals(manager.getHighestBid(), observer.lastBid);
     }
-    
+
 }

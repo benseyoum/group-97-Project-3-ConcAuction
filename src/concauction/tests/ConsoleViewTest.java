@@ -66,8 +66,9 @@ public class ConsoleViewTest
     public void testObserverUpdateAndAuctionMenu()
     {
         User bidder = new User();
-
-        view.update(350, "Laptop", bidder);
+        Item item = new Item("Laptop", 100, 100);
+        
+        view.update(350, item, bidder);
         view.auctionMenu();
 
         String printed = outputBytes.toString();
@@ -85,7 +86,9 @@ public class ConsoleViewTest
      */
     public void testNullUpdateSafe()
     {
-        view.update(0, null, null);
+        Item item = new Item(null, 100, 100);
+
+        view.update(0, item, null);
         view.auctionMenu();
 
         assertTrue(outputBytes.toString().contains("No active auction item"));
@@ -131,7 +134,7 @@ public class ConsoleViewTest
         winner.setMoney(700);
 
         view.setCurrentAuctionItem(laptop);
-        view.update(300, "Laptop", winner);
+        view.update(300, laptop, winner);
         view.bidWinScreenMenu();
 
         assertTrue(
@@ -152,7 +155,7 @@ public class ConsoleViewTest
         Item laptop = new Item("Laptop", 200, 500);
 
         view.setCurrentAuctionItem(laptop);
-        view.update(300, "Laptop", highestBidder);
+        view.update(300, laptop, highestBidder);
         view.bidWinScreenMenu();
 
         assertTrue(outputBytes.toString().contains("Unsold"));

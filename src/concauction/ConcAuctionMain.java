@@ -33,7 +33,7 @@ public class ConcAuctionMain
         model.addObserver(view);
 
         Item first = model.getAuctionQueue().peek();
-        view.update(model.getHighestBid(), first.getItemName(), null);
+        view.update(model.getHighestBid(), first, null);
 
         // Check user select menu
         boolean userSelectMenuValid = false;
@@ -49,8 +49,10 @@ public class ConcAuctionMain
         while (!model.getAuctionQueue().isEmpty())
         {
             view.userBidSelectMenu();
+            if (model.getWinningUser() == null) {
+                view.userBidSelectMenuSkipLine();
+            }
             String playerText = "";
-            
             boolean userBidSelectMenuValid = false;
             while (!userBidSelectMenuValid)
             {
