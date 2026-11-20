@@ -253,4 +253,30 @@ public class QueueTest extends TestCase
 
         assertTrue(queue.isEmpty());
     }
+    
+    /**
+     * tests adding elements to a queue
+     */
+    public void testInterleavedEnqueueDequeue()
+    {
+        Queue<String> queue = new Queue<String>();
+
+        queue.enqueue("A");
+        queue.enqueue("B");
+        queue.enqueue("C");
+
+        queue.enqueue("D");
+        queue.dequeue();
+        queue.enqueue("E");
+        queue.dequeue();
+        
+        Queue<String> expectedQueue = new Queue<String>();
+        expectedQueue.enqueue("C");
+        expectedQueue.enqueue("D");
+        expectedQueue.enqueue("E");
+        
+        for (int i = 0; i < 3; i++) {
+            assertEquals(expectedQueue.dequeue(), queue.dequeue());
+        }
+    }
 }   
