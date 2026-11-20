@@ -285,7 +285,9 @@ public class BiddingManager
         for (int i = 0; i < usersSize; i++)
         {
             int worthCounter = 0;
+            int associatedIterator = 0;
             User associatedUser = null;
+            
             
             for (int j = 0; j < usersSize; j++)
             {
@@ -293,14 +295,12 @@ public class BiddingManager
                 if (worthCounter < netWorth && !contains(j, used))
                 {
                     worthCounter = netWorth;
+                    associatedIterator = j;
                     associatedUser = users[j];
-                    
-                    used[usedInterval] = j;
-                    usedInterval++;
-                    
-                    break;
                 }
             }
+            used[usedInterval] = associatedIterator;
+            usedInterval++;
 
 
             if (associatedUser != null)
