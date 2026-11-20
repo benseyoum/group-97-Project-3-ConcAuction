@@ -100,23 +100,18 @@ It will be important to ensure that this option is only available BEFORE any pla
 ### Non-trivial Feature Impact
 This new feature would touch the following classes and methods
 - Model
-  - `Item`
-    - `Item(String name, int startingBid, int boughtInValue)`: Constructor necessary to replicate the removed item and placing it at the back of the queue with a lower `startingBid`
-  - `Queue`
-    - `dequeue()`: Removes the current item
-    - `enqueue(E element)`: Creates a new item at the back w/ a lower `startingBid`
   - `BiddingManager`
     - Would use a new method (`postponeAuction()`) that modifies field `auctionQueue` using the methods described in `Queue`
 - Controller
   - `NavigationController`
     - Would use a new field (`firstBid`) to track whether users have bid already.
-    - `checkUserBidSelect(int userID)`: This function already handles the quite request ('0') so it is reasonable that is should handle postpone requests, likely mapped to a different impossible integer - perhaps -1. If implemented, `postponeMenu` (described below) will have to be called by this new branch. 
+    - `checkUserBidSelect(int userID)`: This function already handles the quit request ('0') so it is reasonable that is should handle postpone requests, likely mapped to a different impossible integer - perhaps -1. If implemented, `postponeMenu()` (described below) will have to be called by this new branch. 
 - View
   - `ConsoleView`
     - `userBidSelectMenu()` would require more text explaining this mechanic.
     - Potentially include a new method (`postponeMenu()`) that informs the users of a successful postponing. 
 
-It would NOT touch `ActionController`, `Item`, or `User`. Any methods not directly mentioned within the specified classes should also, theoretically, not be touchded. 
+It would NOT touch `ActionController`, `Item`, `Queue`, or `User`. Any methods not directly mentioned within the specified classes should also, theoretically, not be touchded. 
 
 ### Stretch Goal Status
 - **GUI**: Commited to Implementing in the Future
