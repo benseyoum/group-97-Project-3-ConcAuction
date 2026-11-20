@@ -62,24 +62,53 @@ Adding more getters (and setters; although it is more likely setters will be unn
 
 ## Next Steps 
 ### What is left for the final build? Remaining features and fixes, in order.
-All MVP features are complete along with postpone bids and randomized items. Our priorities right now are to finish Auction History and Bidding Time limit. We also will continue developing the GUI and testing all features.
+All MVP features are complete along with postpone bids and randomized items. Our priorities right now are to finish the stretch goals of auction history and bidding time limit. We also will continue developing the GUI and testing any new features.
+
 ### Which stretch goals are you committing to, and which are you dropping?
 We have completed postpone bids and randomized items. We plan on continuing the Auction History and Bidding time limit. The GUI is also something we would like to complete. As of now, we have not planned to drop any features.
+
 ### What will your 3-minute demo show? The path you'll walk through, including the new feature.
-Our demo will start by starting a game and selecting players. As of right now the game will have five generated items and are randomly selected from our catalog with no repeats. We will show our bidding process which will be placing a bid, postponing it and determining a winner based on inventory and money. Once completed we will also show the auction history and bidding time limit.
+Our demo will start by starting a game and selecting players. As of right now the game will have five generated items and are randomly selected from our catalog with no repeats.
+  - Showcase all bad inputs including nothing, non-valid integer, and Strings
+  - Enter 3 for 3 users
+We will show our bidding process:
+  - Item 1 will showcase the regular process with multiple players placing increasingly higher bids.
+  - Item 2 will showcase ties and the implementation of `userQueue` by having each player bid the same value. Bad input handling of `checkBiddingInput(String bid)` by showing no bid, low bid, high bid, and String input. 
+  - Item 3 will showcase the bad input handling of `checkUserBidSelect(String inputUserId)` by showing invalid integer, String keyword, and null inputs. Then, it will showcase the postpone feature using the 'skip' keyword.
+  - Item 4 will showcase what happens when the 'quit' keyword is used before any bids (no valid winner)
+  - Item 5 will showcase what happens when the users bid below the hidden `boughtInValue` (no valid winner)
+  - Item 3 (Postponed) will show how postponed items have a lower starting bid value than their first iteration. Quit out immediately.
+The final winning screen now appears.
+  - Showcase how the players are ordered and explain the way `netWorth` is internally calculated as it is purposefully hidden to users. 
+Once completed we will also show the auction history and bidding time limit.
+  - Bidding time limit will be introduced with Item 1
+  - Auction history will be introduced with Item 3 (Postponed)
 
 ### Specific timing plan
-We will definitely prioritize Auction History and Bidding time limit and testing them. After that, we will focus on making our GUI, testing it and finally ironing out any hiccups before it is ready.
+  - 0:00 - Intro and player selection showcase
+  - 0:25 - Item 1 
+  - 0:50 - Item 2
+  - 1:30 - Item 3
+  - 2:00 - Item 4
+  - 2:10 - Item 5
+  - 2:30 - Item 3 (Postponed)
+  - 2:50 - Final screen
+  - 3:00 - Done
 
 ### Who does what? Which team member owns each remaining item.
-As of right now, Ben will be handling the GUI. Krish will be handling the Auction History and Alex will be handling the bidding time limit.
+| Feature | Owner | 
+| --- | --- |
+| GUI | Ben | 
+| Bidding Time Limit | Alex |
+| Auction History | Krish |
+As of right now, Ben will be handling the GUI. Krish will be handling the auction history and Alex will be handling the bidding time limit.
 However, this is all subject to change and we can all each go further in depth on certain features depending on time and any problems that arise.
 
 ## Attribution Table 
 | Class | Contributor(s) | Contribution |
 | --- | --- | --- |
-| GUI | Ben | |
-| Auction History | Krish | WIP|
+| GUI | Ben | WIP |
+| Auction History | Krish | WIP |
 | Randomized Items and Values | Krish | Implemented with `ItemCatalog`, `ItemCatalogTest`, and updates to `BiddingManager`'s initialization. |
 | Bidding Time Limit | Alex | WIP |
 | Postpone Bids | Alex | Implemented with `ConsoleView`'s `postponeMenu()`, new branch in `NavigationController`'s `checkUserBidSelect(String inputUserId)`, and `BiddingManager`'s `postponeAuction()` along with their related test cases.  |
