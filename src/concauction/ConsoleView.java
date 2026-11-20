@@ -131,6 +131,7 @@ public class ConsoleView
 
         if (lines != null)
         {
+
             finalStandingLines.addAll(lines);
         }
     }
@@ -141,8 +142,14 @@ public class ConsoleView
     {
         highestBid = bid;
         currentAuctionItem = item;
-        currentAuctionItemName = item.getItemName();
         currentWinningUser = leadingUser;
+        
+        if (item != null) {
+            currentAuctionItemName = item.getItemName();
+        }
+        else {
+            currentAuctionItemName = "";
+        }
     }
 
 

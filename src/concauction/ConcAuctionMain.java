@@ -74,6 +74,7 @@ public class ConcAuctionMain
         // Final standings will be provided by the
         // model/controller once the ranking is ready.
 
+        view.setFinalStandings(model.calculateFinalRanking());
         view.finalWinScreenMenu();
     }
 }

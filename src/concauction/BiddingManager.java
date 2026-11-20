@@ -1,7 +1,6 @@
 package concauction;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 // -------------------------------------------------------------------------
 /**
@@ -16,6 +15,7 @@ public class BiddingManager
     private Queue<Item> auctionQueue;
     private Queue<User> userQueue;
     private User[] users;
+    private int usersSize;
     private int highestBid;
     private ArrayList<Observer> observerList;
 
@@ -29,6 +29,7 @@ public class BiddingManager
         auctionQueue = new Queue<Item>();
         userQueue = new Queue<User>();
         users = new User[4];
+        usersSize = 0;
         observerList = new ArrayList<Observer>();
 
         Random rand = new Random();
@@ -66,6 +67,7 @@ public class BiddingManager
             if (users[i] == null)
             {
                 users[i] = new User();
+                usersSize++;
                 notifyObservers();
                 return;
             }
@@ -261,5 +263,74 @@ public class BiddingManager
             highestBid = 0;
         }
         notifyObservers();
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * Calculates final rankings
+     * 
+     * @return list of standings in string format
+     */
+    public List<String> calculateFinalRanking()
+    {
+        ArrayList<String> standings = new ArrayList<String>();
+        int[] used = new int[usersSize];
+        int usedInterval = 0;
+        
+        for (int i = 0; i < usersSize; i++) {
+            used[i] = -1;
+        }
+        
+        for (int i = 0; i < usersSize; i++)
+        {
+            int worthCounter = 0;
+            User associatedUser = null;
+            
+            for (int j = 0; j < usersSize; j++)
+            {
+                int netWorth = getNetWorth(users[j]);
+                if (worthCounter < netWorth && !contains(j, used))
+                {
+                    worthCounter = netWorth;
+                    associatedUser = users[j];
+                    
+                    used[usedInterval] = j;
+                    usedInterval++;
+                    
+                    break;
+                }
+            }
+
+
+            if (associatedUser != null)
+            {
+                standings.add(
+                    "$" + worthCounter + ": Player " + associatedUser.getID());
+            }
+            
+        }
+
+        return standings;
+    }
+
+
+    private int getNetWorth(User user)
+    {
+        int netWorth = user.getMoney();
+        for (Item item : user.getInventory())
+        {
+            netWorth += item.getBoughtInValue();
+        }
+        return netWorth;
+    }
+    
+    private boolean contains(int target, int[] used) {
+        for (int usedInt: used) {
+            if (target==usedInt) {
+                return true;
+            }
+        }
+        return false;
     }
 }
